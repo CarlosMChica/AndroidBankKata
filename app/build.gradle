@@ -2,14 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 23
-  buildToolsVersion "23.0.2"
+  buildToolsVersion '23.0.3'
 
   defaultConfig {
     applicationId "me.panavtec.androidbankkata"
     minSdkVersion 16
     targetSdkVersion 23
     versionCode 1
-    versionName "1.0"
+    versionName '1.0'
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
   }
   buildTypes {
     release {
@@ -18,9 +19,46 @@ android {
     }
   }
 }
+ext {
+  supportLibraryVersion = '23.1.1'
+  espressoVersion = '2.2.1'
+  androidDependencies = [appcompat   : "com.android.support:appcompat-v7:$supportLibraryVersion",
+                         recyclerview: "com.android.support:recyclerview-v7:$supportLibraryVersion"]
+
+  testDependencies = [junit  : 'junit:junit:4.12',
+                      mockito: 'org.mockito:mockito-core:1.10.17']
+
+  androidTestDependencies = [runner          : "com.android.support.test:runner:0.4.1",
+                             rules           : "com.android.support.test:rules:0.4.1",
+                             espresso_core   : "com.android.support.test.espresso:espresso-core:$espressoVersion",
+                             espresso_contrib: "com.android.support.test.espresso:espresso-contrib:$espressoVersion",
+                             espresso_intents: "com.android.support.test.espresso:espresso-intents:$espressoVersion",
+                             dexmaker_mockito: 'com.google.dexmaker:dexmaker-mockito:1.0',
+                             dexmaker        : 'com.google.dexmaker:dexmaker:1.0']
+}
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
-  compile 'com.android.support:appcompat-v7:23.3.0'
+  compile androidDependencies.appcompat
+  compile androidDependencies.recyclerview
+
+  testCompile testDependencies.junit
+  testCompile testDependencies.mockito
+
+  androidTestCompile androidTestDependencies.runner
+  androidTestCompile androidTestDependencies.rules
+  androidTestCompile androidTestDependencies.espresso_core
+  androidTestCompile(androidTestDependencies.espresso_contrib) {
+    exclude module: 'recyclerview-v7'
+    exclude module: 'support-v4'
+  }
+  androidTestCompile androidTestDependencies.espresso_intents
+  androidTestCompile testDependencies.mockito
+  androidTestCompile androidTestDependencies.dexmaker
+  androidTestCompile androidTestDependencies.dexmaker_mockito
+}
+
+
+configurations.all {
+  resolutionStrategy.force "com.android.support:support-annotations:$supportLibraryVersion"
 }
