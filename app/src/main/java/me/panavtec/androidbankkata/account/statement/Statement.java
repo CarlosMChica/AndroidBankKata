@@ -36,6 +36,6 @@ public class Statement {
   }
 
   public List<StatementLine> lines() {
-    throw new UnsupportedOperationException();
+    return null;
   }
 }
