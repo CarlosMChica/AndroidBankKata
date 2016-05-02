@@ -1,16 +1,24 @@
 package me.panavtec.androidbankkata;
 
 import android.content.Intent;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import java.util.List;
 import me.panavtec.androidbankkata.account.BankAccount;
 import me.panavtec.androidbankkata.account.statement.StatementView;
+import me.panavtec.androidbankkata.recyclerview.RecyclerViewInteraction;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
+import static java.util.Arrays.asList;
 import static me.panavtec.androidbankkata.R.id.recyclerView;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -37,6 +45,33 @@ public class ShowStatementActivityShould {
 
     verify(account).attach(statementView());
     verify(account).showStatement();
+  }
+
+  @Test public void show_view_statement_lines() {
+    whenLaunchActivity();
+    List<ViewStatementLine> lines = lines();
+
+    rule.getActivity().show(lines);
+
+    assertThatStatementContains(lines);
+  }
+
+  private void assertThatStatementContains(List<ViewStatementLine> lines) {
+    RecyclerViewInteraction.<ViewStatementLine>onRecyclerView(withId(R.id.recyclerView)).withItems(
+        lines).check(new RecyclerViewInteraction.ItemViewAssertion<ViewStatementLine>() {
+      @Override public void check(ViewStatementLine line, View view, NoMatchingViewException e) {
+        matches(withText(line.date)).check(view.findViewById(R.id.dateTextView), e);
+        matches(withText(line.amount)).check(view.findViewById(R.id.amountTextView), e);
+        matches(withText(line.runningBalance)).check(view.findViewById(R.id.runningBalanceTextView),
+            e);
+      }
+    });
+  }
+
+  private List<ViewStatementLine> lines() {
+    return asList(new ViewStatementLine("14/01/2012", "-500", "2500"),
+        new ViewStatementLine("13/01/2012", "2000", "3000"),
+        new ViewStatementLine("10/01/2012", "1000", "1000"));
   }
 
   private StatementView statementView() {

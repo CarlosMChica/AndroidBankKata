@@ -33,6 +33,5 @@ public class ShowStatementActivity extends AppCompatActivity implements Statemen
   }
 
   @Override public void show(List<ViewStatementLine> lines) {
-    throw new UnsupportedOperationException();
   }
 }
