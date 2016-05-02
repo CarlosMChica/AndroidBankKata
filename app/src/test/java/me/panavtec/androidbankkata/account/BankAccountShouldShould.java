@@ -3,8 +3,10 @@ package me.panavtec.androidbankkata.account;
 import java.util.Date;
 import me.panavtec.androidbankkata.account.statement.StatementFormatter;
 import me.panavtec.androidbankkata.account.statement.StatementView;
+import me.panavtec.androidbankkata.account.transaction.Deposit;
 import me.panavtec.androidbankkata.account.transaction.Transaction;
 import me.panavtec.androidbankkata.account.transaction.TransactionRepository;
+import me.panavtec.androidbankkata.account.transaction.Withdrawal;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -26,7 +28,7 @@ import static org.mockito.Mockito.*;
 
     account.deposit(anAmount());
 
-    verifyStore(aTransactionWith(anAmount()));
+    verifyStore(aDepositWith(anAmount()));
   }
 
   @Test public void store_a_withdraw_transaction() {
@@ -34,7 +36,11 @@ import static org.mockito.Mockito.*;
 
     account.withdraw(anAmount());
 
-    verifyStore(aTransactionWith(-anAmount()));
+    verifyStore(aWithdrawalWith(anAmount()));
+  }
+
+  private Deposit aDepositWith(int amount) {
+    return new Deposit(amount, date());
   }
 
   private BankAccount givenAccountWithMockedClock() {
@@ -56,8 +62,8 @@ import static org.mockito.Mockito.*;
     return 100;
   }
 
-  private Transaction aTransactionWith(int anyAmount) {
-    return new Transaction(anyAmount, date());
+  private Withdrawal aWithdrawalWith(int amount) {
+    return new Withdrawal(amount, date());
   }
 
   private void verifyStore(Transaction transaction) {

@@ -2,7 +2,8 @@ package me.panavtec.androidbankkata.account.transaction;
 
 import java.util.Date;
 
-public class Transaction {
+public abstract class Transaction {
+
   private final int amount;
   private final Date date;
 
@@ -11,11 +12,12 @@ public class Transaction {
     this.date = date;
   }
 
-  @Override public String toString() {
-    return "Transaction{" +
-        "amount=" + amount +
-        ", date=" + date +
-        '}';
+  public int getAmount() {
+    return amount;
+  }
+
+  public Date getDate() {
+    return date;
   }
 
   @Override public boolean equals(Object o) {
@@ -28,15 +30,19 @@ public class Transaction {
 
     Transaction that = (Transaction) o;
 
-    if (amount != that.amount) {
-      return false;
-    }
-    return date != null ? date.equals(that.date) : that.date == null;
+    return amount == that.amount && date != null ? date.equals(that.date) : that.date == null;
   }
 
   @Override public int hashCode() {
     int result = amount;
     result = 31 * result + (date != null ? date.hashCode() : 0);
     return result;
+  }
+
+  @Override public String toString() {
+    return "Transaction{" +
+        "amount=" + amount +
+        ", date=" + date +
+        '}';
   }
 }
