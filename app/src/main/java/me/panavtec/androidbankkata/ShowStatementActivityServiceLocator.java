@@ -1,6 +1,9 @@
 package me.panavtec.androidbankkata;
 
 import me.panavtec.androidbankkata.account.BankAccount;
+import me.panavtec.androidbankkata.account.Clock;
+import me.panavtec.androidbankkata.account.statement.StatementFormatter;
+import me.panavtec.androidbankkata.account.transaction.TransactionRepository;
 
 class ShowStatementActivityServiceLocator {
 
@@ -18,6 +21,6 @@ class ShowStatementActivityServiceLocator {
   }
 
   public BankAccount getAccount() {
-    return null;
+    return new BankAccount(new TransactionRepository(), new StatementFormatter(), new Clock());
   }
 }
