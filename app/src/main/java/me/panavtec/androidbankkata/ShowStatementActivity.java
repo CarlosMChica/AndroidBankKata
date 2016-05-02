@@ -15,9 +15,13 @@ public class ShowStatementActivity extends AppCompatActivity implements Statemen
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     initView();
+    initAccount().showStatement();
+  }
+
+  private BankAccount initAccount() {
     BankAccount account = ShowStatementActivityServiceLocator.getInstance().getAccount();
     account.attach(this);
-    account.showStatement();
+    return account;
   }
 
   private void initView() {
