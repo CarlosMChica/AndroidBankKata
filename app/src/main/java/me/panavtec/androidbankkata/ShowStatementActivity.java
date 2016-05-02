@@ -33,5 +33,6 @@ public class ShowStatementActivity extends AppCompatActivity implements Statemen
   }
 
   @Override public void show(List<ViewStatementLine> lines) {
+    recyclerView.setAdapter(new StatementLineAdapter(lines));
   }
 }

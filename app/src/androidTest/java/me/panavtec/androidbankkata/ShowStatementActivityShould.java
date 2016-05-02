@@ -49,9 +49,14 @@ public class ShowStatementActivityShould {
 
   @Test public void show_view_statement_lines() {
     whenLaunchActivity();
-    List<ViewStatementLine> lines = lines();
+    final List<ViewStatementLine> lines = lines();
 
-    rule.getActivity().show(lines);
+    final ShowStatementActivity activity = rule.getActivity();
+    activity.runOnUiThread(new Runnable() {
+      @Override public void run() {
+        activity.show(lines);
+      }
+    });
 
     assertThatStatementContains(lines);
   }
