@@ -14,6 +14,8 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class) public class BankAccountShouldShould {
 
+  private static final Date ANY_DATE = new Date();
+
   @Mock TransactionRepository repository;
   @Mock StatementFormatter formatter;
   @Mock StatementView view;
@@ -33,7 +35,7 @@ import static org.mockito.Mockito.*;
   }
 
   private Date date() {
-    return new Date();
+    return ANY_DATE;
   }
 
   private BankAccount givenAccount() {
