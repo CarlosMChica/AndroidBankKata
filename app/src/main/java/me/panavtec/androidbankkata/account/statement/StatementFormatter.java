@@ -26,13 +26,26 @@ public class StatementFormatter {
   }
 
   private List<ViewStatementLine> statementLinesFrom(Statement statement) {
-    List<StatementLine> orderedLines = new ArrayList<>(statement.lines());
+    List<StatementLine> sortedLines = sortInReverseOrder(statement.lines());
+    return toViewLines(sortedLines);
+  }
+
+  private List<StatementLine> sortInReverseOrder(List<StatementLine> lines) {
+    List<StatementLine> orderedLines = new ArrayList<>(lines);
     sort(orderedLines, reverseOrder(STATEMENT_LINE_DATE_COMPARATOR));
+    return orderedLines;
+  }
+
+  private List<ViewStatementLine> toViewLines(List<StatementLine> sortedLines) {
     List<ViewStatementLine> viewStatementLines = new ArrayList<>();
-    for (StatementLine statementLine : orderedLines) {
-      viewStatementLines.add(new ViewStatementLine(DATE_FORMAT.format(statementLine.date()),
-          valueOf(statementLine.amount()), valueOf(statementLine.runningBalance())));
+    for (StatementLine statementLine : sortedLines) {
+      viewStatementLines.add(mapLine(statementLine));
     }
     return viewStatementLines;
+  }
+
+  private ViewStatementLine mapLine(StatementLine line) {
+    return new ViewStatementLine(DATE_FORMAT.format(line.date()), valueOf(line.amount()),
+        valueOf(line.runningBalance()));
   }
 }
