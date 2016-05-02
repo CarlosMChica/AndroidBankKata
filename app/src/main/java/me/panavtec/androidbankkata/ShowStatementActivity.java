@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import java.util.List;
 import me.panavtec.androidbankkata.account.BankAccount;
 import me.panavtec.androidbankkata.account.statement.StatementView;
 
@@ -29,5 +30,9 @@ public class ShowStatementActivity extends AppCompatActivity implements Statemen
 
     recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
+  }
+
+  @Override public void show(List<ViewStatementLine> lines) {
+    throw new UnsupportedOperationException();
   }
 }
