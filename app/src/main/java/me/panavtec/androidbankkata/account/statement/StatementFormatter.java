@@ -5,6 +5,6 @@ import me.panavtec.androidbankkata.ViewStatementLine;
 
 public class StatementFormatter {
   public List<ViewStatementLine> format(Statement statement) {
-    throw new UnsupportedOperationException();
+    return null;
   }
 }

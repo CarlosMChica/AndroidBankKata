@@ -34,4 +34,8 @@ public class Statement {
   @Override public int hashCode() {
     return transactions != null ? transactions.hashCode() : 0;
   }
+
+  public List<StatementLine> lines() {
+    throw new UnsupportedOperationException();
+  }
 }
