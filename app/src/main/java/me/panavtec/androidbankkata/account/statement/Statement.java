@@ -19,10 +19,18 @@ public class Statement {
     AtomicInteger currentBalance = new AtomicInteger(0);
     ArrayList<StatementLine> lines = new ArrayList<>();
     for (Transaction transaction : transactions) {
-      lines.add(new StatementLine(transaction, currentBalance.addAndGet(transaction.getAmount())));
+      lines.add(line(transaction, currentBalance));
     }
 
     return lines;
+  }
+
+  private StatementLine line(Transaction transaction, AtomicInteger runningBalance) {
+    return new StatementLine(transaction, nextRunningBalance(runningBalance, transaction));
+  }
+
+  private int nextRunningBalance(AtomicInteger runningBalance, Transaction transaction) {
+    return runningBalance.addAndGet(transaction.getAmount());
   }
 
   @Override public String toString() {

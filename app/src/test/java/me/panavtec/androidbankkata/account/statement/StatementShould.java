@@ -16,15 +16,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class StatementShould {
 
   @Test public void generate_statement_lines_with_running_balance() {
-    Statement statement = new Statement(transactions());
+    Statement statement = givenStatementWithTransactions();
 
     List<StatementLine> lines = statement.lines();
 
-    List<StatementLine> expectedLines =
-        asList(new StatementLine(new Deposit(1000, date(2012, JANUARY, 10)), 1000),
-            new StatementLine(new Deposit(2000, date(2012, JANUARY, 13)), 3000),
-            new StatementLine(new Withdrawal(500, date(2012, JANUARY, 14)), 2500));
-    assertThat(lines, is(expectedLines));
+    assertThat(lines, is(linesFromTransactions()));
+  }
+
+  private List<StatementLine> linesFromTransactions() {
+    return asList(new StatementLine(new Deposit(1000, date(2012, JANUARY, 10)), 1000),
+        new StatementLine(new Deposit(2000, date(2012, JANUARY, 13)), 3000),
+        new StatementLine(new Withdrawal(500, date(2012, JANUARY, 14)), 2500));
+  }
+
+  private Statement givenStatementWithTransactions() {
+    return new Statement(transactions());
   }
 
   private List<Transaction> transactions() {
