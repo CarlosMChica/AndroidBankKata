@@ -38,7 +38,7 @@ public class ShowStatementActivityShould {
     assertThat(layoutManager().getOrientation(), is(VERTICAL));
   }
 
-  @Test public void show_statement() {
+  @Test public void show_account_statement_when_view_is_created() {
     BankAccount account = givenAnAccount();
 
     whenLaunchActivityWith(account);
@@ -47,18 +47,20 @@ public class ShowStatementActivityShould {
     verify(account).showStatement();
   }
 
-  @Test public void show_view_statement_lines() {
-    whenLaunchActivity();
-    final List<ViewStatementLine> lines = lines();
+  @Test public void present_view_statement_lines() {
+    givenLaunchedActivity();
 
-    final ShowStatementActivity activity = rule.getActivity();
-    activity.runOnUiThread(new Runnable() {
+    whenShowStatementLines();
+
+    assertThatStatementContains(lines());
+  }
+
+  private void whenShowStatementLines() {
+    activity().runOnUiThread(new Runnable() {
       @Override public void run() {
-        activity.show(lines);
+        activity().show(lines());
       }
     });
-
-    assertThatStatementContains(lines);
   }
 
   private void assertThatStatementContains(List<ViewStatementLine> lines) {
@@ -71,6 +73,10 @@ public class ShowStatementActivityShould {
             e);
       }
     });
+  }
+
+  private void givenLaunchedActivity() {
+    rule.launchActivity(new Intent());
   }
 
   private List<ViewStatementLine> lines() {
