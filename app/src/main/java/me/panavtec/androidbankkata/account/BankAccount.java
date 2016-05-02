@@ -23,6 +23,7 @@ public class BankAccount {
   }
 
   public void withdraw(int amount) {
+    repository.store(new Transaction(-amount, clock.today()));
   }
 
   public void showStatement() {
