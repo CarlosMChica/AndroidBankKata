@@ -13,6 +13,10 @@ public class ShowStatementActivity extends AppCompatActivity implements Statemen
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    initView();
+  }
+
+  private void initView() {
     setContentView(R.layout.activity_show_statement);
 
     recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
