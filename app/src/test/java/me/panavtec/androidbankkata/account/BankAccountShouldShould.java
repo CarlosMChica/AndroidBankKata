@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
   @Mock StatementView view;
   @Mock Clock clock;
 
-  @Test public void store_a_transaction() {
+  @Test public void store_a_deposit_transaction() {
     BankAccount account = givenAccountWithMockedClock();
 
     account.deposit(anAmount());
