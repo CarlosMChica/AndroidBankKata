@@ -29,6 +29,14 @@ import static org.mockito.Mockito.*;
     verifyStore(aTransactionWith(anAmount()));
   }
 
+  @Test public void store_a_withdraw_transaction() {
+    BankAccount account = givenAccountWithMockedClock();
+
+    account.withdraw(anAmount());
+
+    verifyStore(aTransactionWith(-anAmount()));
+  }
+
   private BankAccount givenAccountWithMockedClock() {
     when(clock.today()).thenReturn(date());
     return givenAccount();
