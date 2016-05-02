@@ -1,13 +1,28 @@
 package me.panavtec.androidbankkata.account.statement;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import me.panavtec.androidbankkata.account.transaction.Transaction;
 
+import static java.util.Collections.unmodifiableList;
+
 public class Statement {
-  private List<Transaction> transactions;
+
+  private final List<Transaction> transactions;
 
   public Statement(List<Transaction> transactions) {
-    this.transactions = transactions;
+    this.transactions = unmodifiableList(transactions);
+  }
+
+  public List<StatementLine> lines() {
+    AtomicInteger currentBalance = new AtomicInteger(0);
+    ArrayList<StatementLine> lines = new ArrayList<>();
+    for (Transaction transaction : transactions) {
+      lines.add(new StatementLine(transaction, currentBalance.addAndGet(transaction.getAmount())));
+    }
+
+    return lines;
   }
 
   @Override public String toString() {
@@ -33,9 +48,5 @@ public class Statement {
 
   @Override public int hashCode() {
     return transactions != null ? transactions.hashCode() : 0;
-  }
-
-  public List<StatementLine> lines() {
-    return null;
   }
 }
