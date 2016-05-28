@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class ShowStatementActivityServiceLocatorShouldShould {
+public class ShowStatementActivityServiceLocatorShould {
 
   @Test public void provide_an_account_with_dependencies() {
     ShowStatementActivityServiceLocator serviceLocator = new ShowStatementActivityServiceLocator();

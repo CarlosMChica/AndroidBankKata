@@ -20,7 +20,9 @@ class StatementLineAdapter extends RecyclerView.Adapter<StatementLineViewHolder>
     holder.onBind(lines.get(position));
   }
 
-  @Override public int getItemCount() {
+  @Override public int getIt
+
+  emCount() {
     return lines.size();
   }
 }
